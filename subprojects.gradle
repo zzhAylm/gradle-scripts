@@ -1,9 +1,9 @@
 ext {
     REPOSITORY_URL = "https://repo.maven.apache.org/maven2/"
 }
-configurations.all {
-    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-}
+//configurations.all {
+//   exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//}
 apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
