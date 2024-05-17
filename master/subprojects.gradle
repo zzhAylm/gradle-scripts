@@ -1,0 +1,85 @@
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+gradle.taskGraph.whenReady { taskGraph ->
+    def tasks = taskGraph.getAllTasks()
+    tasks.each {
+        it.outputs.upToDateWhen { false }
+    }
+}
+
+jar {
+    enabled = false
+}
+bootJar {
+    enabled = true
+}
+test {
+    useJUnitPlatform()
+}
+repositories {
+    maven {
+        allowInsecureProtocol = true
+        url REPOSITORY_URL
+    }
+}
+//    dependencyManagement {
+//        imports {
+//            mavenBom "com.zzh:dependencies:${zzhVersion}"
+//        }
+//        resolutionStrategy { cacheChangingModulesFor 0, 'seconds' }
+//    }
+dependencies {
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-api")
+    implementation("org.apache.logging.log4j:log4j-jul")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+//        annotationProcessor("org.projectlombok:lombok:1.18.24")
+//        compileOnly("org.projectlombok:lombok:1.18.24")
+//        testAnnotationProcessor("org.projectlombok:lombok:1.18.24")
+//        testCompileOnly("org.projectlombok:lombok:1.18.24")
+//        testImplementation("org.springframework.boot:spring-boot-starter-test")
+//        testImplementation("junit:junit")
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly("org.projectlombok:lombok")
+    testImplementation("org.projectlombok:lombok")
+    testAnnotationProcessor('org.projectlombok:lombok')
+    testCompileOnly("org.springframework.boot:spring-boot-starter-test")
+    testAnnotationProcessor("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+//    publishing {
+//        publications {
+//            maven(MavenPublication) {
+//                from components.java
+//                versionMapping {
+//                    usage('java-api') {
+//                        fromResolutionOf('runtimeClasspath')
+//                    }
+//                    usage('java-runtime') {
+//                        fromResolutionResult()
+//                    }
+//                }
+//            }
+//        }
+//        repositories {
+//            maven {
+//                def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+//                def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+//                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+//                credentials {
+//                    username = "70PzfBIg"
+//                    password = "+dK8MZRRUKPq0EMv6HDuDesp3ysmvpME08w5hhQ2oSOl"
+//                }
+//            }
+//        }
+//    }
